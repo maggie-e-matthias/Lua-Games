@@ -2,3 +2,4 @@
 A collection of mini projects done for CS50 2D, made using LOVE 2D
 
 Some included are Pong, ..
+Note: Each file contains a launch.json file with LOVE 2D configuration for smooth running
