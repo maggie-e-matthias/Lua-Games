@@ -19,3 +19,14 @@ end
 function Paddle:render()
     love.graphics.rectangle('fill', self.x, self.y, self.width, self.height)
 end
+
+function Paddle:followBall(ball)
+    if ball.dy ~= 0 then
+        if ball.dy < 0 then
+            self.y = math.max(0, ball.y - 8)
+        else
+            self.y = ball.y - 8
+        end
+        self.dy = ball.dy * 2
+    end
+end
