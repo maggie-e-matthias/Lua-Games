@@ -1,5 +1,6 @@
 # Lua-Games
-A collection of mini projects done for CS50 2D, made using LOVE 2D
+A collection of mini projects done for CS50 2D, made using LOVE 2D  
+Mostly a recreation of the material explained, check tags for each one  
 
 Some included are Pong, ..  
 Note: Each file contains a launch.json file with LOVE 2D configuration for smooth running  
