@@ -1,3 +1,5 @@
+--[[Pong Remake]] 
+
 -- Classess
 
 Class = require 'class'
@@ -74,6 +76,15 @@ function love.draw()
 end
 
 function love.update(dt)
+    if gameState == 'serve' then 
+        ball.dy = math.random(-50, 50)
+        if servingPlayer == 1 then 
+            ball.dx = math.random(140, 200)
+        else
+            ball.dx = -math.random(140, 200)
+        end
+    end
+
     -- Detect collision of ball with paddles
     if ball:collides(player1) then
         ball.dx = -ball.dx * 1.03
@@ -110,6 +121,33 @@ function love.update(dt)
         ball.dy = -ball.dy
     end
 
+    --Score update + winning conditions
+    if ball.x < 0 then 
+        servingPlayer = 1
+        player2Score = player2Score + 1
+        
+        if player2Score == 10 then 
+            winningPlayer = 2
+            gameState = 'done'
+        else
+            gameState = 'serve'
+            ball:reset()
+        end
+    end
+
+    if ball.x > VIRTUAL_WIDTH then 
+        servingPlayer = 2
+        player1Score = player1Score + 1
+        
+        if player1Score == 10 then 
+            winningPlayer = 1
+            gameState = 'done'
+        else
+            gameState = 'serve'
+            ball:reset()
+        end
+    end
+
     if love.keyboard.isDown('w') then
         player1.dy = -PADDLE_SPEED
     elseif love.keyboard.isDown('s') then
@@ -138,5 +176,26 @@ end
 function love.keypressed(key)
     if key == 'escape' then
         love.event.quit()
+    elseif key == 'enter' or key == 'return' then 
+        if gameState == 'start' then
+            gameState = 'serve'
+        elseif gameState == 'serve' then 
+            gameState = 'play'
+
+        -- Here, the game is basically in a restart state
+        elseif gameState == 'done' then 
+            gameState = 'serve'
+
+            ball:reset()
+
+            player1Score = 0
+            player2Score = 0
+
+            if winningPlayer == 1 then 
+                servingPlayer = 2
+            else
+                servingPlayer = 1
+            end
+        end
     end
 end
