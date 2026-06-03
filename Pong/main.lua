@@ -14,8 +14,10 @@ push = require 'push'
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
-VIRTUAL_WIDTH = 432 * 2
-VIRTUAL_HEIGHT = 243 * 2
+SCALE = 2
+
+VIRTUAL_WIDTH = 432 * SCALE
+VIRTUAL_HEIGHT = 243 * SCALE
 
 PADDLE_SPEED = 200 --speed at which the paddle moves multiplied by dt in update
 
@@ -33,10 +35,10 @@ function love.load()
     math.randomseed(os.time())
 
     -- Set a more retro-looking font as the default
-    smallfont = love.graphics.newFont('font.ttf', 8)
-    mediumfont = love.graphics.newFont('font.ttf', 16)
-    largefont = love.graphics.newFont('font.ttf', 32)
-    scoreFont = love.graphics.newFont('font.ttf', 16)
+    smallfont = love.graphics.newFont('font.ttf', 8 * SCALE)
+    mediumfont = love.graphics.newFont('font.ttf', 16 * SCALE)
+    largefont = love.graphics.newFont('font.ttf', 32 * SCALE)
+    scoreFont = love.graphics.newFont('font.ttf', 16 * SCALE)
     love.graphics.setFont(smallfont)
 
     -- Add sounds 
@@ -57,10 +59,10 @@ function love.load()
     push.setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, {upscaling = 'normal'})
 
     --Objects Initiailization 
-    player1 = Paddle(10, 30, 5, 20)
-    player2 = Paddle(VIRTUAL_WIDTH - 15, VIRTUAL_HEIGHT - 30, 5, 20)
+    player1 = Paddle(10, 30, 5 * SCALE, 20 * SCALE)
+    player2 = Paddle(VIRTUAL_WIDTH - 15, VIRTUAL_HEIGHT - 30, 5 * SCALE, 20* SCALE)
 
-    ball = Ball(VIRTUAL_WIDTH/ 2 - 2, VIRTUAL_HEIGHT/2 - 2, 4, 4)
+    ball = Ball(VIRTUAL_WIDTH/ 2 - 2, VIRTUAL_HEIGHT/2 - 2, 4 * SCALE, 4 * SCALE)
 
     --Variables initialization 
     player1Score = 0
@@ -128,7 +130,7 @@ function love.update(dt)
         -- Detect collision of ball with paddles
         if ball:collides(player1) then
             ball.dx = -ball.dx * 1.03
-            ball.x = player1.x + 5
+            ball.x = player1.x + player1.width
             
             --keeps Y velocity in same direction but randomize it 
             if ball.dy < 0 then
@@ -142,7 +144,7 @@ function love.update(dt)
 
         if ball:collides(player2) then
             ball.dx = -ball.dx * 1.03
-            ball.x = player2.x - 4
+            ball.x = player2.x - ball.width
 
             --keeps Y velocity in same direction but randomize it 
             if ball.dy < 0 then
@@ -161,8 +163,8 @@ function love.update(dt)
             sounds['wall_hit']:play()
         end
         
-        if ball.y >= VIRTUAL_HEIGHT - 4 then
-            ball.y = VIRTUAL_HEIGHT - 4
+        if ball.y >= VIRTUAL_HEIGHT - ball.height then
+            ball.y = VIRTUAL_HEIGHT - ball.height
             ball.dy = -ball.dy
             sounds['wall_hit']:play()
         end

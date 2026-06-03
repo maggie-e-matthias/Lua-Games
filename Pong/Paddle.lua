@@ -21,12 +21,14 @@ function Paddle:render()
 end
 
 function Paddle:followBall(ball)
-    if ball.dy ~= 0 then
+    if ball.dy ~= 0 and ball.dx > 0 then
         if ball.dy < 0 then
             self.y = math.max(0, ball.y - 8)
         else
             self.y = ball.y - 8
         end
-        self.dy = ball.dy * 2
+        self.dy = ball.dy * math.random(1, 3)
+    else
+        self.dy = 0
     end
 end
