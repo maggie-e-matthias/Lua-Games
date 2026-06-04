@@ -26,8 +26,8 @@ function Paddle:followBall(ball)
         if ball.dy < 0 then
             self.y = math.max(0, ball.y - 0.5 * self.height)
         else
-            self.y = ball.y + math.random(-5, 5)
-            self.dy = ball.dy * math.random(1.5, 3) + math.random(15, 30)
+            self.y = ball.y + math.random(-5, 5) * math.random(1,2)
+            self.dy = ball.dy * math.random(1, 3) + math.random(50, 80)
         end
     elseif ball.dy == 0 and ball.dx == 0 then
         self.dy = 0

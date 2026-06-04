@@ -91,6 +91,10 @@ function love.draw()
         love.graphics.setFont(smallfont)
         love.graphics.printf('Welcome to Pong!', 0, 10, VIRTUAL_WIDTH, 'center')
         love.graphics.printf('Press Enter to begin!', 0, 30, VIRTUAL_WIDTH, 'center')
+    elseif gameState == 'choice' then
+        love.graphics.setFont(smallfont)
+        love.graphics.printf('Choose mode, Press 1 for Single Player', 0, 10, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('or Press 2 for Multiplayer!', 0, 30, VIRTUAL_WIDTH, 'center')
     elseif gameState == 'serve' then
         love.graphics.setFont(smallfont)
         love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve!", 0, 10, VIRTUAL_WIDTH, 'center')
@@ -199,7 +203,9 @@ function love.update(dt)
             end
         end
 
-        player2:followBall(ball)
+        if gameMode == 'singleplayer' then
+            player2:followBall(ball)
+        end    
         
     end 
 
@@ -213,14 +219,15 @@ function love.update(dt)
         player1.dy = 0
     end
 
-    --if love.keyboard.isDown('up') then
-    --    player2.dy = -PADDLE_SPEED
-    --elseif love.keyboard.isDown('down') then
-    --    player2.dy = PADDLE_SPEED
-    --else
-    --    player2.dy = 0
-    --end
-    
+    if gameMode == 'multiplayer' then
+        if love.keyboard.isDown('up') then
+            player2.dy = -PADDLE_SPEED
+        elseif love.keyboard.isDown('down') then
+            player2.dy = PADDLE_SPEED
+        else
+            player2.dy = 0
+        end
+    end
 
     if gameState == 'play' then
         ball:update(dt)
@@ -236,7 +243,7 @@ function love.keypressed(key)
         love.event.quit()
     elseif key == 'enter' or key == 'return' then 
         if gameState == 'start' then
-            gameState = 'serve'
+            gameState = 'choice'
         elseif gameState == 'serve' then 
             gameState = 'play'
 
@@ -255,6 +262,12 @@ function love.keypressed(key)
                 servingPlayer = 1
             end
         end
+    elseif key == '1' then
+        gameMode = 'singleplayer'
+        gameState = 'serve'
+    elseif key == '2' then 
+        gameMode = 'multiplayer'
+        gameState = 'serve'
     end
 end
 
