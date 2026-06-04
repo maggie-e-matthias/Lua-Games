@@ -73,6 +73,7 @@ function love.load()
     winningPlayer = 0 
 
     gameState = 'start'
+    gameMode = 'None'
 
 end
 
@@ -89,18 +90,18 @@ function love.draw()
     if gameState == 'start' then 
         love.graphics.setFont(smallfont)
         love.graphics.printf('Welcome to Pong!', 0, 10, VIRTUAL_WIDTH, 'center')
-        love.graphics.printf('Press Enter to begin!', 0, 20, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Press Enter to begin!', 0, 30, VIRTUAL_WIDTH, 'center')
     elseif gameState == 'serve' then
         love.graphics.setFont(smallfont)
         love.graphics.printf('Player ' .. tostring(servingPlayer) .. "'s serve!", 0, 10, VIRTUAL_WIDTH, 'center')
-        love.graphics.printf('Press Enter to serve!', 0, 20, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Press Enter to serve!', 0, 30, VIRTUAL_WIDTH, 'center')
     elseif gameState == 'play' then
         -- no message to display while in play
     elseif gameState == 'done' then
         love.graphics.setFont(largefont)
         love.graphics.printf('Player ' .. tostring(winningPlayer) .. ' wins!', 0, 10, VIRTUAL_WIDTH, 'center')
         love.graphics.setFont(smallfont)
-        love.graphics.printf('Press Enter to restart!', 0, 30, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Press Enter to restart!', 0, 50, VIRTUAL_WIDTH, 'center')
     end
          
     displayScore()
@@ -219,7 +220,7 @@ function love.update(dt)
     --else
     --    player2.dy = 0
     --end
-
+    
 
     if gameState == 'play' then
         ball:update(dt)
