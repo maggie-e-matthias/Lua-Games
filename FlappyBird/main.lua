@@ -5,6 +5,12 @@ Push = require 'push'
 Class = require 'class'   
 require 'Bird'
 
+-- imported State Machines
+require 'StateMachine'
+require 'states/BaseState'
+require 'states/PlayState'
+require 'states/TitleScreenState'
+
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 
