@@ -39,9 +39,19 @@ function love.load()
 
     love.keyboard.keysPressed = {}
 
+    -- Initialize graphics
     local background = love.graphics.newImage('background.png')
 
     local ground = love.graphics.newImage('ground.png')
+
+    --Initialize state machine 
+    gStateMachine = StateMachine {
+        ['title'] = function () return TitleScreenState() end, 
+        ['play'] = function () return PlayState() end
+    }
+    --Starts at title screen
+    gStateMachine:change('title')
+
 
 end
 
