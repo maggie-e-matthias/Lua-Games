@@ -30,3 +30,19 @@ function Bird:update(dt)
     --Apply that velocity to the Y position
     self.y = self.y + self.dy
 end
+
+function Bird:collides(pipe)
+    -- 2's are left and top offsets
+    -- 4's are right and bottom offsets
+    -- offsets are given to make players' life easier
+
+    -- x-axis collision 
+    if (self.x + 2) + (self.width - 4) >= pipe.x and (self.x + 2) <= pipe.x + PIPE_WIDTH then 
+        -- y-axis collision 
+        if (self.y + 2) + (self.height - 4) >= pipe.y and self.y + 2 <= pipe.y + PIPE_HEIGHT then 
+            return true
+        end
+    end 
+    
+    return false
+end
