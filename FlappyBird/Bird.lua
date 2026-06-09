@@ -23,8 +23,9 @@ function Bird:update(dt)
     self.dy = self.dy + Gravity * dt
 
     --Add jump if space is pressed
-    if love.keyboard.wasPressed('space') then
-        self.dy = -5
+    if love.keyboard.wasPressed('space') or love.mouse.wasPressed(1) then
+        self.dy = -3
+        sounds['jump']:play()
     end 
 
     --Apply that velocity to the Y position
