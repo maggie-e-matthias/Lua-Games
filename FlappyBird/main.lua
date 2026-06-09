@@ -26,8 +26,12 @@ local GROUND_SCROLL_SPEED = 60
 local BACKGROUND_LOOPING_POINT = 413
 
 function love.load()
+    math.randomseed(os.time())
+
+    -- Set scaling filter
     love.graphics.setDefaultFilter('nearest', 'nearest')
     
+    -- Set Screen
     love.window.setTitle('Flappy Bird')
     love.window.setMode(WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
@@ -37,12 +41,33 @@ function love.load()
 
     push.setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, {upscale = 'normal'})
 
+    -- Set fonts
+    smallFont = love.graphics.newFont('font.ttf', 8)
+    mediumFont = love.graphics.newFont('flappy.ttf', 14)
+    flappyFont = love.graphics.newFont('flappy.ttf', 28)
+    hugeFont = love.graphics.newFont('flappy.ttf', 56)
+    love.graphics.setFont(flappyFont)
+
+
     love.keyboard.keysPressed = {}
 
     -- Initialize graphics
     local background = love.graphics.newImage('background.png')
 
     local ground = love.graphics.newImage('ground.png')
+
+    -- Initialize sounds table 
+    sounds = {
+        ['jump'] = love.audio.newSource('jump.wav', 'static'), 
+        ['explosion'] = love.audio.newSource('explosion.wav', 'static'), 
+        ['hurt'] = love.audio.newSource('hurt.wav', 'static'), 
+        ['score'] = love.audio.newSource('score.wav', 'static'), 
+        ['music'] = love.audio.newSource('marios_way.mp3', 'static')
+    }
+
+    -- Start music
+    sounds['music']:setLooping(true) 
+    sounds['music']:play()
 
     --Initialize state machine 
     gStateMachine = StateMachine {
