@@ -25,6 +25,8 @@ local GROUND_SCROLL_SPEED = 60
 
 local BACKGROUND_LOOPING_POINT = 413
 
+scrolling = true
+
 function love.load()
     math.randomseed(os.time())
 
@@ -52,9 +54,13 @@ function love.load()
     love.keyboard.keysPressed = {}
 
     -- Initialize graphics
-    local background = love.graphics.newImage('background.png')
-
-    local ground = love.graphics.newImage('ground.png')
+    gTextures = {
+        ['background'] = love.graphics.newImage('background.png'),
+        ['bird'] = love.graphics.newImage('bird.png'), 
+        ['ground'] = love.graphics.newImage('ground.png'), 
+        ['pipe'] = love.graphics.newImage('pipe.png')
+    }
+    
 
     -- Initialize sounds table 
     sounds = {
@@ -72,16 +78,22 @@ function love.load()
     --Initialize state machine 
     gStateMachine = StateMachine {
         ['title'] = function () return TitleScreenState() end, 
-        ['play'] = function () return PlayState() end
+        ['play'] = function () return PlayState() end, 
+        ['countdown'] = function () return CountdownState() end, 
+        ['score'] = function () return ScoreState() end
     }
+
     --Starts at title screen
     gStateMachine:change('title')
 
     -- Initialize inputs
     love.keyboard.keysPressed = {}
-
     love.mouse.buttonsPressed = {}
 
+end
+
+function love.resize(w, h)
+    push.resize(w, h)
 end
 
 function love.update(dt)
@@ -99,11 +111,11 @@ end
 function love.draw()
     push.start()
 
-    love.graphics.draw(background, -backgroundScroll, 0)
-    love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
+    love.graphics.draw(gTextures['background'], -backgroundScroll, 0)
+    love.graphics.draw(gTextures['ground'], -groundScroll, VIRTUAL_HEIGHT - 16)
 
-
-    bird:render()
+    gStateMachine:render()
+    
     push.finish()
 end
 
@@ -116,10 +128,11 @@ function love.keypressed(key)
 end
 
 function love.keyboard.wasPressed(key)
-    if love.keyboard.keysPressed[key] then 
-        return true
-    else
-        return false
+    -- add it to the table of pressed keys in the frame
+    love.keyboard.keysPressed[key] = true
+
+    if key == 'escape' then 
+        love.event.quit()
     end
 end
 
