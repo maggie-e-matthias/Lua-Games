@@ -77,34 +77,23 @@ function love.load()
     --Starts at title screen
     gStateMachine:change('title')
 
+    -- Initialize inputs
+    love.keyboard.keysPressed = {}
+
+    love.mouse.buttonsPressed = {}
 
 end
 
 function love.update(dt)
-    backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
-    groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
+    if scrolling then
+        backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
+        groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
+    end
 
-    bird:update(dt)
+    gStateMachine:update(dt)
 
     love.keyboard.keysPressed = {}
-
-    spawnTimer = spawnTimer + dt
-
-    if spawnTimer > 2 then
-        table.insert(pipes, Pipe())
-        print('Added new Pipe!')
-        spawnTimer = 0
-    end
-
-    --update pipes and have them scroll while on screen
-    for k, pipe in pairs(pipes) do
-        pipe:update(dt)
-
-        --removes them once off-screen to save memory
-        if pipe.x < -pipe.width then
-            table.remove(pipes, k)
-        end
-    end
+    love.mouse.buttonsPressed = {}
 end
 
 function love.draw()
@@ -132,4 +121,12 @@ function love.keyboard.wasPressed(key)
     else
         return false
     end
+end
+
+function love.mousepressed(x, y, button)
+    love.mouse.buttonsPressed[button] = true
+end
+
+function love.mouse.wasPressed()
+    return love.mouse.buttonsPressed[button]
 end
