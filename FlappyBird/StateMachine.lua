@@ -7,6 +7,7 @@ function StateMachine:init(states)
     self.empty = {
         render = function () end, 
         update = function () end,
+        processAI = function () end,
         enter = function () end,
         exit = function () end
     }
@@ -27,4 +28,9 @@ end
 
 function StateMachine:render()
     self.current:render()
+end
+
+-- For states that can be handled using by the AI
+function StateMachine:processAI(params, dt)
+    self.current:processAI(params, dt)
 end

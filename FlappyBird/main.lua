@@ -4,12 +4,16 @@
 push = require 'push'
 Class = require 'class'   
 require 'Bird'
+require 'Pipe'
+require 'PipePair'
 
 -- imported State Machines
 require 'StateMachine'
 require 'states/BaseState'
 require 'states/PlayState'
 require 'states/TitleScreenState'
+require 'states/CountdownState'
+require 'states/ScoreState'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -128,12 +132,7 @@ function love.keypressed(key)
 end
 
 function love.keyboard.wasPressed(key)
-    -- add it to the table of pressed keys in the frame
-    love.keyboard.keysPressed[key] = true
-
-    if key == 'escape' then 
-        love.event.quit()
-    end
+    return love.keyboard.keysPressed[key]
 end
 
 function love.mousepressed(x, y, button)
