@@ -18,6 +18,9 @@ function PipePair:init(y)
 
     -- Whether the pipe is ready to be removed or not
     self.remove = false
+
+    -- To signal whether the player passed it or not 
+    self.scored = false
 end
 
 function PipePair:update(dt)

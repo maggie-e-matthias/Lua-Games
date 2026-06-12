@@ -1,7 +1,7 @@
 --[[Flappy Bird (remake)]]--
 
 --Classes
-Push = require 'push'
+push = require 'push'
 Class = require 'class'   
 require 'Bird'
 

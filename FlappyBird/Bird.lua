@@ -4,7 +4,7 @@ local Gravity = 20
 
 function Bird:init()
     --load bird from images on PC
-    self.image = love.graphics.newImage('bird.png')
+    self.image = gTextures['bird']
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()
 
@@ -32,6 +32,7 @@ function Bird:update(dt)
     self.y = self.y + self.dy
 end
 
+--Collision system 
 function Bird:collides(pipe)
     -- 2's are left and top offsets
     -- 4's are right and bottom offsets

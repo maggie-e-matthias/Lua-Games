@@ -1,6 +1,6 @@
 Pipe = Class{}
 
-PIPE_IMAGE = love.graphics.newImage('pipe.png') 
+PIPE_IMAGE = gTextures['pipe']
 PIPE_SCROLL = -60 
 
 PIPE_HEIGHT = 430
